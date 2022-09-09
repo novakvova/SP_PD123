@@ -31,6 +31,7 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.lbCounter = new System.Windows.Forms.Label();
             this.txtCount = new System.Windows.Forms.TextBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -62,11 +63,22 @@
             this.txtCount.Size = new System.Drawing.Size(333, 34);
             this.txtCount.TabIndex = 2;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(488, 96);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(124, 42);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "Відміна";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtCount);
             this.Controls.Add(this.lbCounter);
             this.Controls.Add(this.btnCopy);
@@ -82,5 +94,6 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Label lbCounter;
         private System.Windows.Forms.TextBox txtCount;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

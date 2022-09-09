@@ -17,17 +17,23 @@ namespace WinFormsTask
     {
         int j = 0;
         private Object thisLock = new Object();
+        private CancellationTokenSource ctSource;
+        private CancellationToken token;
+
         public MainForm()
         {
             InitializeComponent();
+            
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
             btnCopy.Enabled = false;
+            ctSource = new CancellationTokenSource();
+            token = ctSource.Token;
             //Task.Run();
             int count = int.Parse(txtCount.Text);
-            Task task = new Task(() => CopyData(count));
+            Task task = new Task(() => CopyData(count), token);
             task.Start();
             int threadId = Thread.CurrentThread.ManagedThreadId;
             //Task.Run(() => CopyData(count));
@@ -39,6 +45,10 @@ namespace WinFormsTask
             {
                 for (int i = 0; i < count; i++)
                 {
+                    if (token.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
+                    {
+                        return;     //  выходим из метода и тем самым завершаем задачу
+                    }
                     Thread.Sleep(500);
                     if (lbCounter.InvokeRequired)
                     {
@@ -56,6 +66,11 @@ namespace WinFormsTask
             }
             //
         }
-        
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            ctSource.Cancel();
+            btnCopy.Enabled = true;
+        }
     }
 }
