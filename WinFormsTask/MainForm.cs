@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Xml.Linq;
 
 namespace WinFormsTask
 {
@@ -27,7 +29,8 @@ namespace WinFormsTask
             int count = int.Parse(txtCount.Text);
             Task task = new Task(() => CopyData(count));
             task.Start();
-            Task.Run(() => CopyData(count));
+            int threadId = Thread.CurrentThread.ManagedThreadId;
+            //Task.Run(() => CopyData(count));
             //CopyData(count);
         }
         void CopyData(int count)
@@ -36,11 +39,22 @@ namespace WinFormsTask
             {
                 for (int i = 0; i < count; i++)
                 {
-                    //Thread.Sleep(500);
-                    lbCounter.Text = $"{++j}/{count}";
+                    Thread.Sleep(500);
+                    if (lbCounter.InvokeRequired)
+                    {
+                        string text = $"{++j}/{count}";
+                        int threadId = Thread.CurrentThread.ManagedThreadId;
+                        //lbCounter.Text = text;
+                        lbCounter.Invoke(new MethodInvoker(delegate { lbCounter.Text = text; }));
+                    }
+                    //lbCounter.Text = ;
                 }
             }
-            btnCopy.Enabled = true;
+            if (btnCopy.InvokeRequired)
+            {
+                btnCopy.Invoke(new MethodInvoker(delegate { btnCopy.Enabled = true; }));
+            }
+            //
         }
         
     }
