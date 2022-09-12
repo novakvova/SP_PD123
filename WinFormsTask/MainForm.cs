@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
+using System.Diagnostics.Eventing.Reader;
 
 namespace WinFormsTask
 {
@@ -19,6 +20,11 @@ namespace WinFormsTask
         private Object thisLock = new Object();
         private CancellationTokenSource ctSource;
         private CancellationToken token;
+        // mre is used to block and release threads manually. It is
+        // created in the unsignaled state.
+        //Вміє лочити виконаня потоку
+        private static ManualResetEvent _mre = new ManualResetEvent(false);
+        private bool _isPause = false;
 
         public MainForm()
         {
@@ -36,6 +42,8 @@ namespace WinFormsTask
             Task task = new Task(() => CopyData(count), token);
             task.Start();
             int threadId = Thread.CurrentThread.ManagedThreadId;
+            //Потік зараз не лочимо, а пукаємо
+            _mre.Set();
             //Task.Run(() => CopyData(count));
             //CopyData(count);
         }
@@ -45,6 +53,7 @@ namespace WinFormsTask
             {
                 for (int i = 0; i < count; i++)
                 {
+                    _mre.WaitOne(Timeout.Infinite); //Якщо був залочений потік то ми чекаємо поки його розлочать
                     if (token.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
                     {
                         return;     //  выходим из метода и тем самым завершаем задачу
@@ -71,6 +80,21 @@ namespace WinFormsTask
         {
             ctSource.Cancel();
             btnCopy.Enabled = true;
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            if(_isPause) //Якщо потік був залочений
+            {
+                _mre.Set(); //Пускаємо потік далі, змінємо кнопку
+                btnPause.Text = "Пауза";
+            }
+            else
+            {
+                _mre.Reset(); //Залочити потік
+                btnPause.Text = "Продовжити"; //Кнопку міняємо на протилежну
+            }
+            _isPause = !_isPause;
         }
     }
 }

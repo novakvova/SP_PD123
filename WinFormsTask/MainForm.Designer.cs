@@ -32,6 +32,7 @@
             this.lbCounter = new System.Windows.Forms.Label();
             this.txtCount = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnPause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -73,11 +74,22 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnPause
+            // 
+            this.btnPause.Location = new System.Drawing.Point(488, 153);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(124, 42);
+            this.btnPause.TabIndex = 4;
+            this.btnPause.Text = "Пауза";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtCount);
             this.Controls.Add(this.lbCounter);
@@ -95,5 +107,6 @@
         private System.Windows.Forms.Label lbCounter;
         private System.Windows.Forms.TextBox txtCount;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnPause;
     }
 }
