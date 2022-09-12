@@ -33,6 +33,7 @@
             this.txtCount = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
+            this.btnRunService = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -84,11 +85,22 @@
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
+            // btnRunService
+            // 
+            this.btnRunService.Location = new System.Drawing.Point(598, 275);
+            this.btnRunService.Name = "btnRunService";
+            this.btnRunService.Size = new System.Drawing.Size(138, 67);
+            this.btnRunService.TabIndex = 5;
+            this.btnRunService.Text = "Запусить сервіс";
+            this.btnRunService.UseVisualStyleBackColor = true;
+            this.btnRunService.Click += new System.EventHandler(this.btnRunService_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRunService);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtCount);
@@ -108,5 +120,6 @@
         private System.Windows.Forms.TextBox txtCount;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.Button btnRunService;
     }
 }

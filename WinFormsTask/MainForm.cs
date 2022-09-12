@@ -100,5 +100,12 @@ namespace WinFormsTask
             }
             _isPause = !_isPause;
         }
+
+        private void btnRunService_Click(object sender, EventArgs e)
+        {
+            UserService userService = new UserService();
+            //На ружу повідомляємо скільки користувачів буде заінсерчено
+            userService.InsertRandomUserAsync(100);
+        }
     }
 }
