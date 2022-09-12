@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using System.Diagnostics.Eventing.Reader;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WinFormsTask
 {
@@ -53,11 +54,6 @@ namespace WinFormsTask
             {
                 for (int i = 0; i < count; i++)
                 {
-                    _mre.WaitOne(Timeout.Infinite); //Якщо був залочений потік то ми чекаємо поки його розлочать
-                    if (token.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
-                    {
-                        return;     //  выходим из метода и тем самым завершаем задачу
-                    }
                     Thread.Sleep(500);
                     if (lbCounter.InvokeRequired)
                     {
@@ -65,6 +61,13 @@ namespace WinFormsTask
                         int threadId = Thread.CurrentThread.ManagedThreadId;
                         //lbCounter.Text = text;
                         lbCounter.Invoke(new MethodInvoker(delegate { lbCounter.Text = text; }));
+                    }
+                    _mre.WaitOne(Timeout.Infinite); //Якщо був залочений потік то ми чекаємо поки його розлочать
+                    if (token.IsCancellationRequested)  // проверяем наличие сигнала отмены задачи
+                    {
+                        j = 0;
+                        lbCounter.Invoke(new MethodInvoker(delegate { lbCounter.Text = "0/0"; }));
+                        return;     //  выходим из метода и тем самым завершаем задачу
                     }
                     //lbCounter.Text = ;
                 }
@@ -80,6 +83,7 @@ namespace WinFormsTask
         {
             ctSource.Cancel();
             btnCopy.Enabled = true;
+           
         }
 
         private void btnPause_Click(object sender, EventArgs e)
