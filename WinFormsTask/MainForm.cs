@@ -104,8 +104,14 @@ namespace WinFormsTask
         private void btnRunService_Click(object sender, EventArgs e)
         {
             UserService userService = new UserService();
+            userService.AddCurrentUserEvent += UserService_AddCurrentUserEvent;
             //На ружу повідомляємо скільки користувачів буде заінсерчено
             userService.InsertRandomUserAsync(100);
+        }
+
+        private void UserService_AddCurrentUserEvent(int count)
+        {
+            lbCounter.Invoke(new MethodInvoker(delegate { lbCounter.Text = count.ToString(); }));
         }
     }
 }
