@@ -23,8 +23,9 @@ namespace ConsoleClientHttp
                 Password = "123456",
                 ConfirmPassword = "123456"
             };
-            RegisterUser(user);
+            //RegisterUser(user);
             Console.WriteLine("Запуск клієнта!");
+            ReadData();
 
         }
         public static void RegisterUser(CreateUserDTO userDTO)
@@ -47,6 +48,33 @@ namespace ConsoleClientHttp
 
             }
             catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    
+        public static void ReadData()
+        {
+            WebRequest request = WebRequest.Create($"{urlServer}/api/account/users");
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+                using (var stream = new StreamReader(response.GetResponseStream()))
+                {
+                    string data = stream.ReadToEnd();
+                    var users = JsonConvert.DeserializeObject<List<UserItemDTO>>(data);
+                    foreach (var item in users)
+                    {
+                        Console.WriteLine("Email: "+ item.Email);
+                        Console.WriteLine("Phone: " + item.Phone);
+                        Console.WriteLine("Image: " + urlServer+item.Photo);
+                    }
+                }
+
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
